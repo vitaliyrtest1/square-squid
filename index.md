@@ -3,7 +3,7 @@ title: Home
 sections:
   - title: Intro
     element_id: intro
-    display_title: Hello.
+    display_title: Hello there.
     next_element_id: one
     component: intro.html
     type: intro
