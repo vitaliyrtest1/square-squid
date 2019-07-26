@@ -1,0 +1,12 @@
+{% assign gallery_is_not_empty = include.section.gallery | is_not_empty %}
+{% if gallery_is_not_empty %}
+    <!-- Gallery -->
+    <div class="gallery">
+        {% assign cyc = "from-left,from-right" | cycler: "," %}
+        {% for item in include.section.gallery %}
+            <article class="{{ cyc.next }}">
+                <a href="{{ item.full_image | relative_url }}" class="image fit"><img src="{{ item.thumb_image | relative_url }}" title="{{ item.title }}" alt="" /></a>
+            </article>
+        {% endfor %}
+    </div>
+{% endif %}

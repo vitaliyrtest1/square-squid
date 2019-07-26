@@ -1,0 +1,272 @@
+stackbitVersion: ~0.2.34
+uploadDir: images
+metadata:
+  title: Big Picture
+  description: a single page theme with sliding animations
+  author: Pixelarity
+  authorURL: 'https://pixelarity.com'
+  images:
+    small: images/demo-256x192.png
+    large: images/demo-1024x768.png
+models:
+  config:
+    type: config
+    label: Config
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: Site title
+        required: true
+      - type: string
+        name: baseurl
+        label: Base URL
+        description: Serve the website from the given base URL
+        hidden: true
+      - type: string
+        name: permalink
+        label: Permalink
+        description: 'The output path for your pages, posts, or collections.'
+        default: '/posts/:slug:output_ext'
+        hidden: true
+      - type: string
+        name: none
+        label: None
+        hidden: true
+        description: >-
+          This is a placeholder value used because there are currently no config
+          params
+      - type: object
+        name: sass
+        label: Sass
+        hidden: true
+        fields:
+          - type: number
+            name: indentWidth
+            label: Indent Width
+            description: >-
+              Used to determine the number of spaces or tabs to be used for
+              indentation.
+            default: 4
+          - type: enum
+            name: style
+            label: Output Style
+            description: Determines the output format of the final CSS style.
+            options:
+              - nested
+              - expanded
+              - compact
+              - compressed
+            default: nested
+          - type: number
+            name: precision
+            label: Precision
+            description: >-
+              Used to determine how many digits after the decimal will be
+              allowed.
+            default: 10
+      - type: list
+        name: plugins
+        label: Plugins
+        hidden: true
+      - type: list
+        name: exclude
+        label: Exclude
+        description: Exclude directories and/or files from the conversion.
+        hidden: true
+  footer:
+    type: data
+    file: footer.yml
+    label: Footer Configuration
+    fields:
+      - type: list
+        name: social_links
+        label: Social Links
+        description: Links to social pages
+        items:
+          type: object
+          labelField: title
+          fields:
+            - type: string
+              name: title
+              label: Title
+            - type: string
+              name: icon
+              label: Icon
+              description: Font Awesome Icon
+            - type: string
+              name: link_url
+              label: Link URL
+      - type: string
+        name: copyright
+        label: Copyright text
+        description: The text displayed in the footer copyright
+      - type: list
+        name: links
+        label: Links
+        description: A list of links displayed in the footer.
+        items:
+          type: object
+          labelField: text
+          fields:
+            - type: string
+              name: text
+              label: Link text
+            - type: string
+              name: url
+              label: URL
+              widget: url
+            - type: boolean
+              name: new_window
+              label: Open in new window
+              default: true
+  home:
+    type: page
+    label: Home
+    hideContent: true
+    singleInstance: true
+    file: index.md
+    fields:
+      - type: string
+        name: title
+        label: Page Title
+        required: true
+        default: Home
+      - type: list
+        name: sections
+        label: Sections
+        description: Home sections
+        items:
+          type: reference
+          labelField: title
+          models:
+            - intro
+            - content_box
+            - work
+            - contact
+    layout: home
+  section:
+    type: object
+    label: Section
+    labelField: title
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: Title of the section link shown in the navigation bar
+        required: true
+      - type: string
+        name: element_id
+        label: Section ID
+        unique: true
+        description: The section ID must be unique among all home sections
+      - type: string
+        name: component
+        label: Component
+        hidden: true
+        required: true
+  intro:
+    type: object
+    label: Intro
+    extends:
+      - section
+    fields:
+      - name: title
+        default: Intro
+      - name: element_id
+        default: intro
+      - name: component
+        const: intro.html
+      - type: string
+        name: display_title
+        label: Section title
+      - type: string
+        name: next_element_id
+        label: Next Section ID
+        description: >-
+          The section ID of the section that will be scrolled to when the Next
+          button is clicked
+      - type: text
+        name: content
+        label: Text
+        description: Intro text
+  content_box:
+    type: object
+    label: Content Box
+    extends:
+      - section
+    fields:
+      - type: enum
+        options:
+          - left
+          - right
+        required: true
+        name: side
+        label: Side
+      - type: string
+        name: next_element_id
+        label: Next Section ID
+        description: >-
+          The section ID of the section that will be scrolled to when the Next
+          button is clicked
+      - name: component
+        const: content_box.html
+      - type: text
+        name: content
+        label: Text
+  work:
+    type: object
+    label: Work
+    extends:
+      - section
+    fields:
+      - name: component
+        const: work.html
+      - type: text
+        name: content
+        label: Text
+      - type: list
+        name: gallery
+        label: Image gallery
+        items:
+          type: object
+          labelField: title
+          fields:
+            - type: string
+              name: title
+              label: Title
+            - type: image
+              name: full_image
+              label: Full Image
+            - type: image
+              name: thumb_image
+              label: Thumbnail Image
+  contact:
+    type: object
+    label: Contact
+    extends:
+      - section
+    fields:
+      - name: component
+        const: contact.html
+      - type: string
+        name: display_title
+        label: Section title
+      - type: text
+        name: content
+        label: Text
+stackbit_banner:
+  show_banner: true
+  name: Big-picture
+  create_url: 'https://app.stackbit.com/wizard?theme=big-picture'
+  github_url: 'https://github.com/stackbithq/stackbit-theme-big-picture'
+ssgName: jekyll
+publishDir: _site
+buildCommand: ./ssg-build.sh
+injectLocations:
+  htmlHead:
+    file: _layouts/base.html
+    tagName: head
+  htmlBody:
+    file: _layouts/base.html
+    tagName: body

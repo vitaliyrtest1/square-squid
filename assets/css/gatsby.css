@@ -1,0 +1,9 @@
+/* styles for the Gatsby SSG */
+
+#___gatsby {
+    display: inline;
+}
+
+#___gatsby > div {
+    display: inline;
+}
